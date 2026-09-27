@@ -1,0 +1,102 @@
+{
+  "tool": "network_scanner.py",
+  "scan_started": "2026-09-26T02:55:27-05:00",
+  "scan_finished": "2026-09-26T02:55:33-05:00",
+  "requested_target": "10.0.2.15",
+  "target_type": "single host",
+  "nmap_version": "7.98",
+  "nmap_commands": [
+    "nmap -sT -sV -Pn -oX /home/mat/network-security-lab/reports/services_20260926_025527.xml 10.0.2.15"
+  ],
+  "raw_xml_files": [
+    "/home/mat/network-security-lab/reports/services_20260926_025527.xml"
+  ],
+  "disclaimer": "Findings are exposures that warrant analyst review under the transparent rules in network_scanner.py. They are not confirmed vulnerabilities, evidence of malicious activity, or proof of compromise.",
+  "expected_tcp_ports": [
+    80,
+    443
+  ],
+  "summary": {
+    "hosts_discovered_up": null,
+    "hosts_scanned": 1,
+    "open_ports": 1,
+    "findings_by_classification": {
+      "HIGH REVIEW": 0,
+      "REVIEW": 1,
+      "INFO": 0
+    },
+    "hosts_warranting_review": 1
+  },
+  "discovered_hosts": null,
+  "hosts": [
+    {
+      "ip": "10.0.2.15",
+      "hostname": "ubuntu-security-lab.local",
+      "status": "up",
+      "status_reason": "user-set",
+      "services": [
+        {
+          "port": 8000,
+          "protocol": "tcp",
+          "state": "open",
+          "state_reason": "syn-ack",
+          "name": "http",
+          "product": "SimpleHTTPServer",
+          "version": "0.6",
+          "extra_info": "Python 3.14.4",
+          "tunnel": null,
+          "detection_method": "probed"
+        }
+      ],
+      "unlisted_ports": {
+        "closed": 999
+      }
+    }
+  ],
+  "host_assessments": [
+    {
+      "ip": "10.0.2.15",
+      "hostname": "ubuntu-security-lab.local",
+      "classification": "REVIEW",
+      "reason": "1 exposed service(s) on this host produced findings that warrant review (listed below). This host-level result is a summary of those findings and a prompt for analyst review only.",
+      "contributing_findings": [
+        "8000/tcp [REVIEW] dev-web-server, http-nonstandard-port, unexpected-service"
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "ip": "10.0.2.15",
+      "hostname": "ubuntu-security-lab.local",
+      "port": 8000,
+      "protocol": "tcp",
+      "service": "http",
+      "product": "SimpleHTTPServer",
+      "version": "0.6",
+      "classification": "REVIEW",
+      "matched_rules": [
+        "dev-web-server",
+        "http-nonstandard-port",
+        "unexpected-service"
+      ],
+      "reasons": [
+        "Nmap identified a development/testing web server. These are built for local development, not exposed use. Python's http.server, for example, listens on all interfaces by default and serves a directory listing without authentication.",
+        "HTTP service on a non-standard port. Such services are often test, admin or temporary services that are easy to forget.",
+        "Open TCP port is outside the expected-service baseline stated for this run (--expected-ports). An exposure that was not planned for may be forgotten or unmanaged."
+      ],
+      "follow_ups": [
+        "Confirm the server was started intentionally, check which directory it is serving, and stop it or bind it to 127.0.0.1 when it is not needed.",
+        "Identify the application behind this port and confirm it is expected to be reachable.",
+        "Confirm whether this service should be reachable. If it is intended, add the port to the baseline; otherwise stop it or restrict access."
+      ],
+      "note": null
+    }
+  ],
+  "scope_notes": [
+    "Only TCP was scanned (connect scan, -sT); UDP services are not covered.",
+    "Service and version names are Nmap fingerprint matches and can be inaccurate.",
+    "Only Nmap's default top 1000 TCP ports were scanned.",
+    "Host discovery was skipped (-Pn) because the target was named explicitly; a host status reason of 'user-set' means Nmap assumed the host was up.",
+    "The scan included this machine's own address. That traffic stays inside the local network stack, so results show what is listening, not what other hosts can reach through firewalls or NAT."
+  ]
+}

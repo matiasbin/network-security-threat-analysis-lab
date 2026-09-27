@@ -1,0 +1,59 @@
+Network Exposure Analysis Report
+================================
+Scan started     : 2026-09-26T02:55:27-05:00
+Scan finished    : 2026-09-26T02:55:33-05:00
+Requested target : 10.0.2.15 (single host)
+Nmap version     : 7.98
+Nmap commands    :
+  nmap -sT -sV -Pn -oX /home/mat/network-security-lab/reports/services_20260926_025527.xml 10.0.2.15
+Raw Nmap XML     :
+  /home/mat/network-security-lab/reports/services_20260926_025527.xml
+Expected TCP baseline: 80, 443
+
+NOTE: Findings are exposures that warrant analyst review under the transparent rules in network_scanner.py. They are not confirmed vulnerabilities, evidence of malicious activity, or proof of compromise.
+
+Summary
+-------
+Hosts discovered (up) : discovery not performed
+Hosts scanned         : 1
+Open TCP ports        : 1
+Findings              : HIGH REVIEW=0, REVIEW=1, INFO=0
+Hosts warranting review: 1
+
+Hosts and services
+------------------
+10.0.2.15  hostname: ubuntu-security-lab.local  status: up (reason: user-set)
+  Ports not listed individually: closed=999
+  PORT       STATE     SERVICE         PRODUCT / VERSION
+  8000/tcp   open      http            SimpleHTTPServer 0.6 (Python 3.14.4)
+
+Host-level assessment
+---------------------
+[REVIEW] 10.0.2.15  hostname: ubuntu-security-lab.local
+  Reason: 1 exposed service(s) on this host produced findings that warrant review (listed below). This host-level result is a summary of those findings and a prompt for analyst review only.
+  Caused by:
+    - 8000/tcp [REVIEW] dev-web-server, http-nonstandard-port, unexpected-service
+
+Findings
+--------
+[REVIEW] 10.0.2.15:8000/tcp
+  Hostname         : ubuntu-security-lab.local
+  Service          : http
+  Product/version  : SimpleHTTPServer 0.6
+  Rules matched    : dev-web-server, http-nonstandard-port, unexpected-service
+  Reason(s):
+    - Nmap identified a development/testing web server. These are built for local development, not exposed use. Python's http.server, for example, listens on all interfaces by default and serves a directory listing without authentication.
+    - HTTP service on a non-standard port. Such services are often test, admin or temporary services that are easy to forget.
+    - Open TCP port is outside the expected-service baseline stated for this run (--expected-ports). An exposure that was not planned for may be forgotten or unmanaged.
+  Recommended analyst follow-up:
+    - Confirm the server was started intentionally, check which directory it is serving, and stop it or bind it to 127.0.0.1 when it is not needed.
+    - Identify the application behind this port and confirm it is expected to be reachable.
+    - Confirm whether this service should be reachable. If it is intended, add the port to the baseline; otherwise stop it or restrict access.
+
+Scope and limitations
+---------------------
+- Only TCP was scanned (connect scan, -sT); UDP services are not covered.
+- Service and version names are Nmap fingerprint matches and can be inaccurate.
+- Only Nmap's default top 1000 TCP ports were scanned.
+- Host discovery was skipped (-Pn) because the target was named explicitly; a host status reason of 'user-set' means Nmap assumed the host was up.
+- The scan included this machine's own address. That traffic stays inside the local network stack, so results show what is listening, not what other hosts can reach through firewalls or NAT.
