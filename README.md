@@ -1,4 +1,35 @@
+
 # Network Security & Threat Analysis Lab
+## Key Results
+
+- Captured and analyzed 47,189 network packets
+- Reviewed TCP, DNS, HTTP, TLS, ICMP, UDP, and QUIC traffic
+- Built a Python scanner for host discovery, service enumeration, and exposure review
+- Added analyst-defined expected-port baseline checks
+- Added host-level REVIEW assessments
+- Generated TXT, JSON, and XML reports
+- Completed a controlled HTTP anomaly investigation
+- Finished with 58 passing offline unit tests
+
+## Project Evidence
+
+### Final Scanner Validation
+
+![Final scanner validation](evidence/screenshots/network_scanner_final_validation.png)
+
+The final validation identified an HTTP service on TCP port 8000 and flagged it for review based on the development server, nonstandard HTTP port, and expected-service baseline.
+
+### Packet Capture Analysis
+
+![Packet capture analysis](evidence/screenshots/wireshark_packet_count.png)
+
+The main packet capture contained 47,189 packets and included traffic across TCP, DNS, HTTP, TLS, ICMP, UDP, QUIC, and other protocols.
+
+### Controlled HTTP Investigation
+
+![Controlled HTTP investigation](evidence/screenshots/controlled_http_enumeration_analysis.png)
+
+A controlled test generated repeated requests to sensitive-looking paths such as `/admin`, `/login`, `/backup`, and `/.git`, which were captured and investigated as unusual request behavior.
 
 ## Overview
 
