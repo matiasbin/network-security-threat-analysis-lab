@@ -1,5 +1,6 @@
 
 # Network Security & Threat Analysis Lab
+I built this lab to get hands-on experience with network traffic analysis, service enumeration, exposure review, and Python-based security automation using Wireshark, Nmap, and Linux.
 ## Key Results
 
 - Captured and analyzed 47,189 network packets
